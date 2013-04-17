@@ -53,11 +53,6 @@ fontFamilies = [
 	'Papyrus, fantasy'
 ]
 
-fontsProp = {
-	'font-family': fontFamilies,
-	'font': fontFamilies
-}
-
 class AutoCompleteFontFamilies(sublime_plugin.EventListener):
 	rex = None
 	reComments = None
@@ -67,7 +62,7 @@ class AutoCompleteFontFamilies(sublime_plugin.EventListener):
 		if not view.match_selector(locations[0], "source.css - meta.selector.css"):
 			return []
 
-		self.rex = re.compile("([a-zA-Z-]+):\s*$")
+		self.rex = re.compile("(font|font\-family):.*[^;]+$")
 		self.reComments = re.compile("\s*(?!<\")\/\*[^\*]+\*\/(?!\")\s*")
 		self.reFontFace = re.compile("@font-face\s*\{[\n\t\r\s]*font-family\s*:\s*(?:\'|\")?([^\'\";]+)")
 
@@ -82,39 +77,37 @@ class AutoCompleteFontFamilies(sublime_plugin.EventListener):
 		if (view.match_selector(locations[0], "meta.property-value.css") or
 			# This will catch scenarios like .foo {font-style: |}
 			view.match_selector(locations[0] - 1, "meta.property-value.css")):
+
 			loc = locations[0] - len(prefix)
 			line = view.substr(sublime.Region(view.line(loc).begin(), loc))
 			m = re.search(self.rex, line)
 
 			if m:
-				prop_name = m.group(1)
+				body = view.substr(sublime.Region(0, view.size()))
 
-				if prop_name in fontsProp:
-					body = view.substr(sublime.Region(0, view.size()))
+				if s.get('ignore_font_faces_in_comments'):
+					body = re.sub(self.reComments, '', body)
 
-					if s.get('ignore_font_faces_in_comments'):
-						body = re.sub(self.reComments, '', body)
+				fontFacesInFile = re.findall(self.reFontFace, body)
 
-					fontFacesInFile = re.findall(self.reFontFace, body)
+				for fontFacesInFileItem in fontFacesInFile:
+					if fontFacesInFileItem not in fontFamilies:
+						if re.search(r"[^a-zA-Z\-]", fontFacesInFileItem):
+							fontFacesInFileItem = "'" + fontFacesInFileItem + "'"
 
-					for fontFacesInFileItem in fontFacesInFile:
-						if fontFacesInFileItem not in fontFamilies:
-							if re.search(r"[^a-zA-Z\-]", fontFacesInFileItem):
-								fontFacesInFileItem = "'" + fontFacesInFileItem + "'"
+						values.append(fontFacesInFileItem)
 
-							values.append(fontFacesInFileItem)
+				add_semi_colon = view.substr(sublime.Region(locations[0], locations[0] + 1)) != ';'
 
-					add_semi_colon = view.substr(sublime.Region(locations[0], locations[0] + 1)) != ';'
+				for v in values:
+					desc = re.sub(r"\"|\'", '', v)
+					snippet = v
 
-					for v in values:
-						desc = re.sub(r"\"|\'", '', v)
-						snippet = v
+					if add_semi_colon:
+						snippet += ";"
 
-						if add_semi_colon:
-							snippet += ";"
+					l.append((desc, snippet))
 
-						l.append((desc, snippet))
-
-					return (l, sublime.INHIBIT_WORD_COMPLETIONS)
+				return (l, sublime.INHIBIT_WORD_COMPLETIONS)
 
 			return None
