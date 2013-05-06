@@ -59,10 +59,11 @@ class AutoCompleteFontFamilies(sublime_plugin.EventListener):
 	reFontFace = None
 
 	def on_query_completions(self, view, prefix, locations):
-		if not view.match_selector(locations[0], "source.css - meta.selector.css"):
+		if not view.match_selector(locations[0], "source.css - meta.selector.css, source.scss - meta.selector.scss, source.css.less"):
 			return []
 
-		self.rex = re.compile("(font|font\-family):.*[^;]+$")
+		# self.rex = re.compile("(font|font\-family):.*[^;]+$")
+		self.rex = re.compile("(font|font\-family):\s*$")
 		self.reComments = re.compile("\s*(?!<\")\/\*[^\*]+\*\/(?!\")\s*")
 		self.reFontFace = re.compile("@font-face\s*\{[\n\t\r\s]*font-family\s*:\s*(?:\'|\")?([^\'\";]+)")
 
@@ -74,9 +75,9 @@ class AutoCompleteFontFamilies(sublime_plugin.EventListener):
 			if settingsFontStackItem not in fontFamilies:
 				values.append(settingsFontStackItem)
 
-		if (view.match_selector(locations[0], "meta.property-value.css") or
+		if (view.match_selector(locations[0], "meta.property-value.css, meta.property-value.scss, source.css.less") or
 			# This will catch scenarios like .foo {font-style: |}
-			view.match_selector(locations[0] - 1, "meta.property-value.css")):
+			view.match_selector(locations[0] - 1, "meta.property-value.css, meta.property-value.scss, source.css.less")):
 
 			loc = locations[0] - len(prefix)
 			line = view.substr(sublime.Region(view.line(loc).begin(), loc))
