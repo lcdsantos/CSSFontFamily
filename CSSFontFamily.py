@@ -62,7 +62,6 @@ class AutoCompleteFontFamilies(sublime_plugin.EventListener):
 		if not view.match_selector(locations[0], "source.css - meta.selector.css, source.scss - meta.selector.scss, source.css.less"):
 			return []
 
-		# self.rex = re.compile("(font|font\-family):.*[^;]+$")
 		self.rex = re.compile("(font|font\-family):\s*$")
 		self.reComments = re.compile("\s*(?!<\")\/\*[^\*]+\*\/(?!\")\s*")
 		self.reFontFace = re.compile("@font-face\s*\{[\n\t\r\s]*font-family\s*:\s*(?:\'|\")?([^\'\";]+)")
