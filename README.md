@@ -1,12 +1,12 @@
 # CSSFontFamily
 
-CSSFontFamily is a Sublime Text 2 plugin with a collection of font stacks autocomplete.
+CSSFontFamily is a Sublime Text 2/3 plugin with a collection of font stacks autocomplete.
 
 Also, autocomplete @font-faces declared in your current CSS.
 
 ## Installation
 
-CSSFontFamily is designed to work with [Sublime Text 2](http://www.sublimetext.com/2).
+CSSFontFamily is designed to work with [Sublime Text](http://www.sublimetext.com).
 
 ### Using Sublime Package Control
 
@@ -14,9 +14,9 @@ If you are using [Sublime Package Control](http://wbond.net/sublime_packages/pac
 
 ### Using Git
 
-Clone this repo directly to your `Packages` directory in the Sublime Text 2 folder.
+Clone this repo directly to your `Packages` directory in the Sublime Text folder.
 
-You can locate your Sublime Text 2 `Packages` directory by using the menu item `Preferences > Browse Packages...`.
+You can locate your Sublime Text `Packages` directory by using the menu item `Preferences > Browse Packages...`.
 
 While inside the `Packages` directory, clone the plugin repository using the command below:
 ```git
@@ -27,7 +27,7 @@ clone https://github.com/lcdsantos/CSSFontFamily/ "CSSFontFamily"
 
 1. Download the files using the GitHub .zip download option
 2. Unzip the files and rename the folder to `CSSFontFamily`
-3. Copy the folder to your Sublime Text 2 `Packages` directory
+3. Copy the folder to your Sublime Text `Packages` directory
 
 ## Usage
 
