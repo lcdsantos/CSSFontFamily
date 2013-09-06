@@ -20,7 +20,7 @@ You can locate your Sublime Text `Packages` directory by using the menu item `Pr
 
 While inside the `Packages` directory, clone the plugin repository using the command below:
 ```git
-clone https://github.com/lcdsantos/CSSFontFamily/ "CSSFontFamily"
+git clone https://github.com/lcdsantos/CSSFontFamily/ "CSSFontFamily"
 ```
 
 ### Download Manually
