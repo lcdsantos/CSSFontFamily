@@ -2,7 +2,7 @@
 
 CSSFontFamily is a Sublime Text 2/3 plugin with a collection of font stacks autocomplete.
 
-Also, autocomplete @font-faces declared in your current CSS.
+Also, autocomplete `@font-faces` declared in your current CSS.
 
 ## Installation
 
@@ -46,7 +46,7 @@ The built-in font stacks aren't enough for you? No problem! Go to `Preferences >
 ```
 It's recommended that you escape your font names with quotes if contains spaces or any punctuations other than hyphens.
 
-By default, commented @font-face declarations in your CSS are ignored, you can change this by adding this to your User Settings file:
+By default, commented `@font-face` declarations in your CSS are ignored, you can change this by adding this to your User Settings file:
 ```json
 {
 	"ignore_font_faces_in_comments": false
